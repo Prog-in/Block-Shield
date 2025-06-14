@@ -1,3 +1,4 @@
 fabric-samples
 **/node_modules
 **/package-lock.json
+src/client/wallet/*

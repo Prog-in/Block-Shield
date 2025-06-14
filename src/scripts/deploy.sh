@@ -8,8 +8,7 @@ cd ../../fabric-samples/test-network
 ./network.sh up createChannel -c dppchannel -ca
 
 echo "📦 Copiando o chaincode para pasta padrão..."
-rm -rf ../chaincode/dpp
-cp -r ../../block-shield/src/chaincode/dpp ../chaincode/dpp
+mkdir ../chaincode && cp -r ../../src/chaincode/dpp ../chaincode/dpp
 
 echo "🚀 Instalando o chaincode dpp..."
 ./network.sh deployCC -ccn dpp -ccp ../chaincode/dpp -ccl javascript -c dppchannel

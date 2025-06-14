@@ -35,7 +35,13 @@ cd block-shield/
 curl -sSL https://bit.ly/2ysbOFE | bash -s
 ```
 
-3. Execute o script de deploy
+3. Instale as dependências do projeto
+
+```bash
+npm install
+```
+
+4. Execute o script de deploy
 
 ```bash
 chmod +x src/scripts/deploy.sh

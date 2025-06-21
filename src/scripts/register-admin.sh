@@ -18,11 +18,11 @@ export FABRIC_CA_CLIENT_HOME=$ADMIN_HOME
 mkdir -p $FABRIC_CA_CLIENT_HOME
 
 if [ ! -f "$ADMIN_HOME/msp/signcerts/cert.pem" ]; then
-  echo "🔐 Matriculando admin..."
+  echo "Matriculando admin..."
   $FABRIC_CA_CLIENT_BIN enroll \
     -u https://$ADMIN_ID:$ADMIN_SECRET@localhost:7054 \
     --tls.certfiles $CA_TLS_CERT \
     -M $FABRIC_CA_CLIENT_HOME
 else
-  echo "✅ Admin já matriculado. Pulando."
+  echo "Admin já matriculado. Pulando."
 fi

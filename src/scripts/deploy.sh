@@ -3,7 +3,7 @@
 
 set -e
 
-cd $FABRIC_SAMPLES/test-network
+cd $TEST_NETWORK
 
 echo "Encerrando possível rede Fabric anterior..."
 ./network.sh down
@@ -17,7 +17,11 @@ rm -rf ../chaincode && mkdir ../chaincode && cp -r ../../src/chaincode/dpp ../ch
 echo "Instalando o chaincode dpp..."
 ./network.sh deployCC -ccn dpp -ccp ../chaincode/dpp -ccl javascript -c dppchannel
 
+cp $ORG1/connection-org1.json $CONFIG/connection-org1.json
+
 cd $SCRIPTS
+
+rm -rf $CLIENT/wallet
 
 echo "Registrando admin"
 ./register-admin.sh

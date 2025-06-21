@@ -2,3 +2,4 @@ fabric-samples
 **/node_modules
 **/package-lock.json
 src/client/wallet/*
+src/config/connection-org1.json

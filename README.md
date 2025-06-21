@@ -22,28 +22,18 @@ Pré-requisitos:
 - Git
 - Go
 
-1. Clone este repositório
+Na raiz do projeto, siga o seguinte passo-a-passo:
 
-```bash
-git clone https://github.com/seuusuario/block-shield.git
-cd block-shield/
-```
-
-2. Instale o HyperLedger Fabric
+1. Instale o HyperLedger Fabric Samples
 
 ```bash
 curl -sSL https://bit.ly/2ysbOFE | bash -s
 ```
 
-3. Instale as dependências do projeto
+2. Execute o script de deploy
 
 ```bash
-npm install
-```
-
-4. Execute o script de deploy
-
-```bash
-chmod +x src/scripts/deploy.sh
-./src/scripts/deploy.sh
+cd src/scripts
+chmod +x deploy.sh
+./deploy.sh
 ```

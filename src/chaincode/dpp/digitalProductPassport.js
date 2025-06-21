@@ -14,6 +14,9 @@ class DigitalProductPassport extends Contract {
             throw new Error(`DPP ${dppId} já existe`);
         }
 
+        const txTimestamp = ctx.stub.getTxTimestamp();
+        const timestamp = new Date(txTimestamp.seconds * 1000).toISOString();
+
         const dpp = {
             dppId,
             manufacturerId,
@@ -23,7 +26,7 @@ class DigitalProductPassport extends Contract {
                 carbonFootprintKg: parseFloat(carbonFootprintKg),
                 certifications: JSON.parse(certifications),
             },
-            timestamp: new Date().toISOString(),
+            timestamp,
             owner: manufacturerId,
         };
 
@@ -86,4 +89,18 @@ class DigitalProductPassport extends Contract {
         await ctx.stub.putState(dppId, Buffer.from(JSON.stringify(dpp)));
         return JSON.stringify(dpp);
     }
+
+    async getAllDPPs(ctx) {
+        const results = [];
+        const iterator = await ctx.stub.getStateByRange('', '');
+
+        for await (const res of iterator) {
+            const dpp = JSON.parse(res.value.toString());
+            results.push(dpp);
+        }
+
+        return JSON.stringify(results);
 }
+}
+
+module.exports = DigitalProductPassport;

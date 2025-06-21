@@ -16,13 +16,14 @@ async function main() {
     const ccpPath = resolve(clientDir, '../config/connection-org1.json');
     const ccp = JSON.parse(readFileSync(ccpPath, 'utf8'));
 
-    const peerEndpoint = ccp.peers[org1].url.replace('grpcs://', '');
-    const tlsCACert = ccp.peers[org1].tlsCACerts.pem;
-    const grpcOptions = ccp.peers[org1].grpcOptions;
+    const peer = ccp.peers[org1];
+    const peerEndpoint = peer.url.replace('grpcs://', '');
+    const tlsCACert = peer.tlsCACerts.pem;
+    const grpcOptions = peer.grpcOptions;
 
     // Carregar certificado TLS do peer
-    const tlsRootCert = Buffer.from(tlsCACert).toString();
-    const tlsCredentials = credentials.createSsl(Buffer.from(tlsRootCert));
+    const tlsRootCert = Buffer.from(tlsCACert);
+    const tlsCredentials = credentials.createSsl(tlsRootCert);
 
     // Caminhos dos arquivos da identidade
     const mspId = 'Org1MSP';
@@ -38,16 +39,19 @@ async function main() {
     const privateKey = createPrivateKey(privateKeyPem);
     const signer = signers.newPrivateKeySigner(privateKey);
 
-    const client = new Client(peerEndpoint, tlsCredentials, grpcOptions);
+    const client = new Client(peerEndpoint, tlsCredentials, {
+        'grpc.ssl_target_name_override': grpcOptions['ssl-target-name-override'],
+        'grpc.default_authority':grpcOptions['hostnameOverride']
+    });
 
-    const connection = connect({identity, signer, client});
+    const connection = connect({client, identity, signer});
 
     const network = connection.getNetwork('dppchannel');
     const contract = network.getContract('dpp');
 
     const result = await contract.submitTransaction(
         'registerDPP',
-        'DPP-001',
+        'DPP-008',
         'MFG-001',
         'EcoLight',
         '2025-01-01',
@@ -55,8 +59,9 @@ async function main() {
         JSON.stringify(['CE', 'RoHS'])
     );
 
-    console.log(`✅ Transação concluída: ${result.toString()}`);
-    client.close();
+    const jsonString = Buffer.from(result).toString('utf8')
+    const resultJson = JSON.parse(jsonString);
+    console.log(JSON.stringify(resultJson, null, 2));
 }
 
 main().catch(console.error);

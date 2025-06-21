@@ -51,6 +51,6 @@ $FABRIC_CA_CLIENT_BIN enroll \
 mkdir -p $DEST_DIR
 
 cp $APPUSER_HOME/$APPUSER_ID/signcerts/cert.pem $DEST_DIR/cert.pem
-cp $(find $APPUSER_HOME/$APPUSER_ID/keystore -name '*_sk') $DEST_DIR/key.pem
+cp $(find $APPUSER_HOME/$APPUSER_ID/keystore -name '*_sk' -print -quit) $DEST_DIR/key.pem
 
 echo "Identidade do appUser criada em $DEST_DIR"

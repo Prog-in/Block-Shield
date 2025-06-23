@@ -22,6 +22,7 @@ class DigitalProductPassport extends Contract {
         console.info('Ledger initialized');
     }
 
+    // Creates a new product passport with manufacturer credentials
     async registerDPP(ctx, dppId, manufacturerId, productName, manufactureDate, carbonFootprintKg, certifications, dppReferences) {
         const exists = await this.dppExists(ctx, dppId);
         if (exists) {
@@ -58,6 +59,7 @@ class DigitalProductPassport extends Contract {
         return JSON.stringify(dpp);
     }
 
+    // Appends repair, maintenance, or recycling information
     async updateLifecycleEvent(ctx, dppId, newOwnerId, dppReferencesToBeRemoved, dppReferencesToBeAdded, newCertifications, eventType, eventData, timestamp) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
@@ -110,6 +112,7 @@ class DigitalProductPassport extends Contract {
         return JSON.stringify(dpp);
     }
 
+    // Retrieves product data for consumer or auditor use
     async queryDPP(ctx, dppId) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
@@ -166,6 +169,7 @@ class DigitalProductPassport extends Contract {
         return JSON.stringify(dpp);
     }
 
+    // Returns true if the dpp with dppId exists in the blockchain. returns False otherwise.
     async dppExists(ctx, dppId) {
         const dppJSON = await ctx.stub.getState(dppId);
         return dppJSON && dppJSON.length > 0;

@@ -23,7 +23,7 @@ cd $SCRIPTS
 
 rm -rf $CLIENT/wallet
 
-echo "Registrando admin"
+echo "Registering admin"
 ./register-admin.sh
 
 echo "Registrando usuário"

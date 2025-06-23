@@ -7,25 +7,25 @@ import { resolve, dirname } from 'path';
 import { credentials, Client } from '@grpc/grpc-js';
 
 async function main() {
+
+    // getting the connection profile
     const filename = fileURLToPath(import.meta.url);
     const clientDir = dirname(filename)
-
-    const org1 = 'peer0.org1.example.com'
-
-    // Caminho da conexão (connection profile)
     const ccpPath = resolve(clientDir, '../config/connection-org1.json');
     const ccp = JSON.parse(readFileSync(ccpPath, 'utf8'));
 
+    // getting the peer information
+    const org1 = 'peer0.org1.example.com'
     const peer = ccp.peers[org1];
     const peerEndpoint = peer.url.replace('grpcs://', '');
     const tlsCACert = peer.tlsCACerts.pem;
     const grpcOptions = peer.grpcOptions;
 
-    // Carregar certificado TLS do peer
+    // Loading the informations of the peer
     const tlsRootCert = Buffer.from(tlsCACert);
     const tlsCredentials = credentials.createSsl(tlsRootCert);
 
-    // Caminhos dos arquivos da identidade
+    // Loading the user identity
     const mspId = 'Org1MSP';
     const certPath = resolve(clientDir, 'wallet/appUser/cert.pem');
     const keyPath = resolve(clientDir, 'wallet/appUser/key.pem');
@@ -35,6 +35,7 @@ async function main() {
         credentials: readFileSync(certPath),
     };
 
+    // Creating a signing implementation
     const privateKeyPem = readFileSync(keyPath, 'utf8');
     const privateKey = createPrivateKey(privateKeyPem);
     const signer = signers.newPrivateKeySigner(privateKey);
@@ -44,9 +45,11 @@ async function main() {
         'grpc.default_authority':grpcOptions['hostnameOverride']
     });
 
+    // Creating the connection
     const connection = connect({client, identity, signer});
-
+    // Getting the network
     const network = connection.getNetwork('dppchannel');
+    // Getting the (default) smart contract of the chaincode
     const contract = network.getContract('dpp');
 
     const dpp1_certifications = [
@@ -67,7 +70,7 @@ async function main() {
         JSON.stringify([])
     );
 
-    print_result("DPP 1 registrado com sucesso:", dpp1_register);
+    print_result("DPP 1 registered with success:", dpp1_register);
 
     const dpp1_update = await contract.submitTransaction(
         'updateLifecycleEvent',
@@ -85,7 +88,7 @@ async function main() {
         '03-01-2025'
     );
 
-    print_result("DPP 1 atualizado com sucesso:", dpp1_update);
+    print_result("DPP 1 updated with success:", dpp1_update);
 
     const dpp2_certifications = [
         {
@@ -105,7 +108,7 @@ async function main() {
         JSON.stringify(['DPP-001'])
     );
 
-    print_result("DPP 2 registrado com sucesso:", dpp2_register);
+    print_result("DPP 2 registered with success:", dpp2_register);
 
     const queried_dpp = await contract.submitTransaction(
         'queryDPP',

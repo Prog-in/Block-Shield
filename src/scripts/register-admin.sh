@@ -12,7 +12,7 @@ ADMIN_ID=admin
 ADMIN_SECRET=adminpw
 
 # =============================
-# 1. Enroll do admin (apenas uma vez)
+# 1. enrolling of the Admin
 # =============================
 export FABRIC_CA_CLIENT_HOME=$ADMIN_HOME
 mkdir -p $FABRIC_CA_CLIENT_HOME

@@ -19,7 +19,7 @@ APPUSER_SECRET=appUserpw
 ROLE=client
 
 # =============================
-# 1. Registrar o appUser com o admin autenticado
+# 1. Registering the appUser with the admin previously enrolled
 # =============================
 export FABRIC_CA_CLIENT_HOME=$ADMIN_HOME
 
@@ -34,7 +34,7 @@ $FABRIC_CA_CLIENT_BIN register \
   --url $CA_URL
 
 # =============================
-# 2. Enroll do appUser
+# 2. enrolling of the appUser 
 # =============================
 export FABRIC_CA_CLIENT_HOME=$APPUSER_HOME
 mkdir -p $FABRIC_CA_CLIENT_HOME
@@ -46,7 +46,7 @@ $FABRIC_CA_CLIENT_BIN enroll \
   -M $FABRIC_CA_CLIENT_HOME/$APPUSER_ID
 
 # =============================
-# 3. Copiar identidade para destino padrão
+# 3. Copying the identity to the user wallet directory
 # =============================
 mkdir -p $DEST_DIR
 

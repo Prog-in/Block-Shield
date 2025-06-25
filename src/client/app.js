@@ -54,9 +54,9 @@ async function main() {
 
     const dpp1_certifications = [
         {
-            "issuedBy": "EnvAgency-EU",
-            "certificate": "ISO 14001:2015 - Environmental Management",
-            "timestamp": "2025-06-21T19:45:00.000Z"
+            'issuedBy': 'EnvAgency-EU',
+            'certificate': 'ISO 14001:2015 - Environmental Management',
+            'timestamp': '2025-06-21T19:45:00.000Z'
         },
     ];
     const dpp1_register = await contract.submitTransaction(
@@ -65,42 +65,45 @@ async function main() {
         'MFG-001',
         'EcoLight',
         '01-01-2025',
+        JSON.stringify({'url': 'https://product1.url.com'}),
         '4.3',
         JSON.stringify(dpp1_certifications),
         JSON.stringify([])
     );
 
-    print_result("DPP 1 registered with success:", dpp1_register);
+    print_result('DPP 1 registered with success:', dpp1_register);
 
     const dpp1_update = await contract.submitTransaction(
         'updateLifecycleEvent',
         'DPP-001',
         'MFG-002',
+        JSON.stringify({'url': 'https://product1.new.url.com'}),
         JSON.stringify([]),
         JSON.stringify([]),
         JSON.stringify([{
-            "issuedBy": "CEBody-123",
-            "certificate": "CE Safety Directive 2006/42/EC",
-            "timestamp": "2025-06-22T08:30:00.000Z"
+            'issuedBy': 'CEBody-123',
+            'certificate': 'CE Safety Directive 2006/42/EC',
+            'timestamp': '2025-06-22T08:30:00.000Z'
         }]),
-        "update",
-        "New certification obtained",
+        'update',
+        'New certification obtained',
         '03-01-2025'
     );
 
-    print_result("DPP 1 updated with success:", dpp1_update);
+    print_result('DPP 1 updated with success:', dpp1_update);
 
     const dpp2_certifications = [
         {
-            "issuedBy": "GovAuditAgency",
-            "certificate": "ISO14001",
-            "timestamp": "2025-06-21T20:00:00Z"
+            'issuedBy': 'GovAuditAgency',
+            'certificate': 'ISO14001',
+            'timestamp': '2025-06-21T20:00:00Z'
         }
     ];
     const dpp2_register = await contract.submitTransaction(
         'registerDPP',
         'DPP-002',
         'ABC-001',
+        JSON.stringify({'url': 'https://product2.url.com'}),
         'FooBar',
         '07-02-2025',
         '10.7',
@@ -108,14 +111,14 @@ async function main() {
         JSON.stringify(['DPP-001'])
     );
 
-    print_result("DPP 2 registered with success:", dpp2_register);
+    print_result('DPP 2 registered with success:', dpp2_register);
 
     const queried_dpp = await contract.submitTransaction(
         'queryDPP',
         'DPP-002'
     );
 
-    print_result("Queried DPP:", queried_dpp);
+    print_result('Queried DPP:', queried_dpp);
 
     const compliant_dpp1 = await contract.submitTransaction(
         'flagCompliance',
@@ -124,7 +127,7 @@ async function main() {
         '01-03-2025'
     );
 
-    print_result("Compliant DPP1:", compliant_dpp1)
+    print_result('Compliant DPP1:', compliant_dpp1)
 
     const non_compliant_dpp2 = await contract.submitTransaction(
         'flagNonCompliance',
@@ -134,7 +137,7 @@ async function main() {
         '09-03-2025'
     );
 
-    print_result("Non-Compliant DPP2:", non_compliant_dpp2)
+    print_result('Non-Compliant DPP2:', non_compliant_dpp2)
 }
 
 function print_result(message, result) {

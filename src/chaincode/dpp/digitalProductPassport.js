@@ -23,7 +23,7 @@ class DigitalProductPassport extends Contract {
     }
 
     // Creates a new product passport with manufacturer credentials
-    async registerDPP(ctx, dppId, manufacturerId, productName, manufactureDate, carbonFootprintKg, certifications, dppReferences) {
+    async registerDPP(ctx, dppId, manufacturerId, productName, manufactureDate, productInfo, carbonFootprintKg, certifications, dppReferences) {
         const exists = await this.dppExists(ctx, dppId);
         if (exists) {
             throw new Error(`DPP ${dppId} já existe`);
@@ -34,8 +34,9 @@ class DigitalProductPassport extends Contract {
             manufacturerId,
             ownerId: manufacturerId,
             productData: {
-                productName,
-                manufactureDate,
+                productName: productName,
+                manufactureDate: manufactureDate,
+                productInfo: productInfo,
                 carbonFootprintKg: parseFloat(carbonFootprintKg),
                 certifications: JSON.parse(certifications),
             },
@@ -60,7 +61,7 @@ class DigitalProductPassport extends Contract {
     }
 
     // Appends repair, maintenance, or recycling information
-    async updateLifecycleEvent(ctx, dppId, newOwnerId, dppReferencesToBeRemoved, dppReferencesToBeAdded, newCertifications, eventType, eventData, timestamp) {
+    async updateLifecycleEvent(ctx, dppId, newOwnerId, newProductInfo, dppReferencesToBeRemoved, dppReferencesToBeAdded, newCertifications, eventType, eventData, timestamp) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
             throw new Error(`DPP ${dppId} não encontrado`);
@@ -69,6 +70,7 @@ class DigitalProductPassport extends Contract {
         const dpp = JSON.parse(dppJSON.toString());
 
         dpp.ownerId = newOwnerId;
+        dpp.productData.productInfo = newProductInfo;
         dpp.productData.certifications.push(...JSON.parse(newCertifications));
 
         const dppRefs = new Set(dpp.dppReferences);

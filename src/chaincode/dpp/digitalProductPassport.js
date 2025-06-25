@@ -26,7 +26,7 @@ class DigitalProductPassport extends Contract {
     async registerDPP(ctx, dppId, manufacturerId, productName, manufactureDate, productInfo, carbonFootprintKg, certifications, dppReferences) {
         const exists = await this.dppExists(ctx, dppId);
         if (exists) {
-            throw new Error(`DPP ${dppId} já existe`);
+            throw new Error(`DPP ${dppId} already exists!`);
         }
 
         const dpp = {
@@ -64,7 +64,7 @@ class DigitalProductPassport extends Contract {
     async updateLifecycleEvent(ctx, dppId, newOwnerId, newProductInfo, dppReferencesToBeRemoved, dppReferencesToBeAdded, newCertifications, eventType, eventData, timestamp) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
-            throw new Error(`DPP ${dppId} não encontrado`);
+            throw new Error(`DPP ${dppId} not found`);
         }
 
         const dpp = JSON.parse(dppJSON.toString());
@@ -99,7 +99,7 @@ class DigitalProductPassport extends Contract {
     async certifyCompliance(ctx, dppId, certifierId, certificate, timestamp) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
-            throw new Error(`DPP ${dppId} não encontrado`);
+            throw new Error(`DPP ${dppId} not found`);
         }
 
         const dpp = JSON.parse(dppJSON.toString());
@@ -118,7 +118,7 @@ class DigitalProductPassport extends Contract {
     async queryDPP(ctx, dppId) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
-            throw new Error(`DPP ${dppId} não encontrado`);
+            throw new Error(`DPP ${dppId} not found`);
         }
         return dppJSON.toString();
     }
@@ -127,7 +127,7 @@ class DigitalProductPassport extends Contract {
     async flagNonCompliance(ctx, dppId, flaggedBy, reason, timestamp) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
-            throw new Error(`DPP ${dppId} não encontrado`);
+            throw new Error(`DPP ${dppId} not found`);
         }
 
         const dpp = JSON.parse(dppJSON.toString());
@@ -151,7 +151,7 @@ class DigitalProductPassport extends Contract {
     async flagCompliance(ctx, dppId, flaggedBy, timestamp) {
         const dppJSON = await ctx.stub.getState(dppId);
         if (!dppJSON || dppJSON.length === 0) {
-            throw new Error(`DPP ${dppId} não encontrado`);
+            throw new Error(`DPP ${dppId} not found`);
         }
 
         const dpp = JSON.parse(dppJSON.toString());

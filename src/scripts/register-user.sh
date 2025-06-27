@@ -51,4 +51,4 @@ mkdir -p $DEST_DIR
 cp $APPUSER_HOME/$APPUSER_ID/signcerts/cert.pem $DEST_DIR/cert.pem
 cp $(find $APPUSER_HOME/$APPUSER_ID/keystore -name '*_sk' -print -quit) $DEST_DIR/key.pem
 
-echo "appUser identity criated in $DEST_DIR"
+echo "appUser identity created in $DEST_DIR"

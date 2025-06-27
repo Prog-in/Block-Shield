@@ -5,16 +5,16 @@ set -e
 
 cd $TEST_NETWORK
 
-echo "Encerrando possível rede Fabric anterior..."
+echo "Shutting down possible previous Fabric network..."
 ./network.sh down
 
-echo "Subindo a rede Fabric com canal dppchannel..."
+echo "Creating Fabric network with channel dppchannel..."
 ./network.sh up createChannel -c dppchannel -ca
 
-echo "Copiando o chaincode para pasta padrão..."
+echo "Copying the chaincode dpp to the default directory..."
 rm -rf ../chaincode && mkdir ../chaincode && cp -r ../../src/chaincode/dpp ../chaincode/dpp
 
-echo "Instalando o chaincode dpp..."
+echo "Instaling the chaincode dpp..."
 ./network.sh deployCC -ccn dpp -ccp ../chaincode/dpp -ccl javascript -c dppchannel
 
 cp $ORG1/connection-org1.json $CONFIG/connection-org1.json
@@ -26,7 +26,7 @@ rm -rf $CLIENT/wallet
 echo "Registering admin"
 ./register-admin.sh
 
-echo "Registrando usuário"
+echo "Registering user"
 ./register-user.sh
 
-echo "✅ Deploy concluído com sucesso."
+echo "✅ Deploy successfully completed."

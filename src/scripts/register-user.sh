@@ -3,7 +3,6 @@
 
 set -e
 
-# Caminhos
 CA_URL=https://localhost:7054
 CA_NAME=ca-org1
 CA_TLS_CERT="$FABRIC_SAMPLES/test-network/organizations/fabric-ca/org1/tls-cert.pem"
@@ -13,7 +12,6 @@ ADMIN_HOME=$CLIENT/wallet/admin
 APPUSER_HOME=$CLIENT/wallet/.fabric-ca-client
 DEST_DIR=$CLIENT/wallet/appUser
 
-# Credenciais
 APPUSER_ID=appUser
 APPUSER_SECRET=appUserpw
 ROLE=client
@@ -23,7 +21,7 @@ ROLE=client
 # =============================
 export FABRIC_CA_CLIENT_HOME=$ADMIN_HOME
 
-echo "Registrando usuário appUser..."
+echo "Registering appUser..."
 $FABRIC_CA_CLIENT_BIN register \
   --id.name $APPUSER_ID \
   --id.secret $APPUSER_SECRET \
@@ -39,7 +37,7 @@ $FABRIC_CA_CLIENT_BIN register \
 export FABRIC_CA_CLIENT_HOME=$APPUSER_HOME
 mkdir -p $FABRIC_CA_CLIENT_HOME
 
-echo "Matriculando appUser..."
+echo "Enrolling appUser..."
 $FABRIC_CA_CLIENT_BIN enroll \
   -u https://$APPUSER_ID:$APPUSER_SECRET@localhost:7054 \
   --tls.certfiles $CA_TLS_CERT \
@@ -53,4 +51,4 @@ mkdir -p $DEST_DIR
 cp $APPUSER_HOME/$APPUSER_ID/signcerts/cert.pem $DEST_DIR/cert.pem
 cp $(find $APPUSER_HOME/$APPUSER_ID/keystore -name '*_sk' -print -quit) $DEST_DIR/key.pem
 
-echo "Identidade do appUser criada em $DEST_DIR"
+echo "appUser identity criated in $DEST_DIR"

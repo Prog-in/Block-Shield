@@ -1,39 +1,48 @@
-# Block Shield – Passaporte Digital de Produto (DPP) com Hyperledger Fabric
+# Block Shield – Digital Product Passport (DPP) with Hyperledger Fabric
 
-Block Shield é um projeto que implementa uma rede Hyperledger Fabric para registro e consulta de passaportes digitais de produtos (DPPs). A proposta está alinhada com iniciativas de sustentabilidade e rastreabilidade reguladas pela União Europeia.
+Block Shield is a project that implements a Hyperledger Fabric network for the registration and querying of digital product passports (DPPs). The proposal is aligned with sustainability and traceability initiatives regulated by the European Union.
 
-O sistema permite registrar informações sobre a origem do produto, certificações, pegada de carbono e eventos de ciclo de vida como manutenção e reciclagem.
+The system allows the registration of information such as product origin, certifications, carbon footprint, and lifecycle events such as maintenance and recycling.
 
-## 🧱 Estrutura
+## Structure
 
+```
 src/  
-├── chaincode/          → Smart contract (DigitalProductPassport.js)  
-├── client/             → Cliente Node.js para registrar DPPs  
-├── config/             → Conexão com a rede (connection-org1.json)  
-├── network/            → (Opcional) Serviços extras via Docker Compose  
-└── scripts/            → Script para automatizar o deploy  
+├── chaincode/dpp/      → Smart contract (DigitalProductPassport.js) 
+├── client/             → Node.js client for registering DPPs 
+├── config/             → Network connection (connection-org1.json) 
+└── scripts/            → Script to automate deployment 
+```
 
-## 🚀 Como executar
+## How to run
 
-Pré-requisitos:
+Prerequisites:
 
-- Docker e Docker Compose  
+- Docker and Docker Compose  
 - Node.js
 - Git
 - Go
 
-Na raiz do projeto, siga o seguinte passo-a-passo:
+In the root directory of the project, follow these steps:
 
-1. Instale o HyperLedger Fabric Samples
+1. Install Hyperledger Fabric Samples
 
 ```bash
 curl -sSL https://bit.ly/2ysbOFE | bash -s
 ```
 
-2. Execute o script de deploy
+2. Run the deployment script
 
 ```bash
 cd src/scripts
 chmod +x deploy.sh
 ./deploy.sh
+```
+
+3. Install the Node.js dependencies and run the demonstration
+
+```bash
+cd ../client
+npm install
+npm start
 ```
